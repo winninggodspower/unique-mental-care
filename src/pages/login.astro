@@ -1,9 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from 'astro:assets';
+import checkImage from '../images/check.svg';
 ---
 
 <Layout title="login">
-  <main class="md:flex md:h-[calc(100vh-3rem)]">
+  <main class="md:flex md:h-[calc(100vh-3rem)] bg-grey">
     <section
       class="hidden w-2/5 h-full text-white register-img md:block bg-gray-600"
     >
@@ -12,20 +14,36 @@ import Layout from "../layouts/Layout.astro";
           Gain access to professional counselors and mental therapists
         </h2>
         <ul class="mb-9">
-          <li class="flex mb-3 gap-x-2 font-inter">
-            <img src="/src/assets/check-icon.svg" alt="" />
-            premium e-medical tools
+          <li class="flex items-center mb-3 gap-x-2 font-inter">
+            <Image src={checkImage} width={30} alt="check icon"/>
+            24hrs Premium Mental care  services
           </li>
-          <li class="flex mb-3 gap-x-2 font-inter">
-            <img src="/src/assets/check-icon.svg" alt="" />
-            advanced payment schedules
+          <li class="flex items-center mb-3 gap-x-2 font-inter">
+            <Image src={checkImage} width={30} alt="check icon"/>
+            24 hrs counselling Session
           </li>
         </ul>
       </div>
     </section>
 
     <section class="grow flex justify-center items-center">
-        <div class="w-full max-w-[600px] bg-green-300 h-60">
+        <div class="w-full max-w-[500px] bg-white py-10">
+          
+          <div class="grid items-center w-10/12 md:w-[23.3rem] md:max-w-[90%] mx-auto">
+            <h3 class="font-raleway font-semibold text-2xl sm:text-3xl text-center md:text-[2rem] opacity-90 mb-1">Student Login</h3>
+
+            <form class="mt-4" action="">
+              <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="email" type="email" placeholder="Uniport Email address ">
+              <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="password" type="password" placeholder="Password (student mat. no.)">
+
+              <button class="w-full md:w-[min(24.7rem, 100%)] mt-9 rounded-md bg-primary-dark text-white py-2" type="submit">Login as a patient</button>
+            </form>
+            <div class="mt-10">
+              <a class="block text-center text-grey-5" href="/register/patient">Don't have an account? Register</a>
+              <a class="block text-center text-grey-5" href="">Forgot password?</a>
+            </div>
+
+          </div>
 
         </div>
     </section>
