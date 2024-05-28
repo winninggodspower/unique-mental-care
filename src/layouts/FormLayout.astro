@@ -1,0 +1,41 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from 'astro:assets';
+import checkImage from '../images/check.svg';
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+  <main class="md:flex md:h-fit md:min-h-[calc(100vh-3rem)] bg-grey">
+    <section
+      class="hidden w-2/5 text-white register-img md:block bg-gray-600"
+    >
+      <div class="mt-[6rem] w-[80%] mx-auto">
+        <h2 class="mb-8 text-4xl font-railway">
+          Gain access to professional counselors and mental therapists
+        </h2>
+        <ul class="mb-9">
+          <li class="flex items-center mb-3 gap-x-2 font-inter">
+            <Image src={checkImage} width={30} alt="check icon"/>
+            24hrs Premium Mental care  services
+          </li>
+          <li class="flex items-center mb-3 gap-x-2 font-inter">
+            <Image src={checkImage} width={30} alt="check icon"/>
+            24 hrs counselling Session
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="grow flex justify-center items-center">
+        <div class="w-full max-w-[500px] bg-white py-10 my-10">
+          
+          <div class="grid items-center w-10/12 md:w-[23.3rem] md:max-w-[90%] mx-auto">
+            <slot />
+          </div>
+
+        </div>
+    </section>
+  </main>
+</Layout>

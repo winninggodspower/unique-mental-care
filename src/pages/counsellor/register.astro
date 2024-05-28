@@ -1,0 +1,31 @@
+---
+import FormLayout from "../../layouts/FormLayout.astro";
+---
+
+<FormLayout title="register">
+  <h3 class="font-raleway font-semibold text-2xl sm:text-3xl text-center md:text-[2rem] opacity-90 mb-1">Counselor Register</h3>
+  <p class="text-base font-normal text-center md:text-lg opacity-90 font-raleway">
+    gain access to students in Uniport
+  </p>
+  <form class="mt-4" action="">
+    <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="email" type="email" placeholder="Email address ">
+    <div class="grid grid-cols-[minmax(0,6.5rem)_minmax(0,1fr)] w-full group">
+        <select class="border-r-0 rounded-md rounded-r-none mt-5 group-focus-within:input-hover bg-grey" name="phone_country_code">
+            <option value="">+234</option>
+            <option value="">+22</option>
+            <option value="">+235</option>
+        </select>
+        <input class="border-l-0 rounded-md rounded-l-none mt-5 group-focus-within:input-hover bg-grey-2" type="number" name="phone_number" placeholder="Phone number">
+    </div>
+    <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="password" type="password" placeholder="Password">
+
+    <button class="w-full md:w-[min(24.7rem, 100%)] mt-9 rounded-md bg-primary-dark text-white py-2" type="submit">
+        Register as a Counselor
+    </button>
+  </form>
+
+  <div class="mt-10">
+    <a class="block text-center text-grey-5" href="/counsellor/login/">Already have an account? Login</a>
+    <a class="block text-center text-grey-5" href="">Need and emergency help?</a>
+  </div>
+</FormLayout>
