@@ -2,13 +2,14 @@
 import BaseLayout from "./BaseLayout.astro";
 import { Image } from 'astro:assets';
 import checkImage from '../images/check.svg';
+import siteLogoBent from '../images/site-logo-bent.png';
 
 const { title } = Astro.props;
 ---
 
 <BaseLayout title={title}>
   <main class="md:flex md:h-fit md:min-h-[calc(100vh-3rem)] bg-grey">
-    <section
+    <section id="sidebar"
       class="hidden w-2/5 text-white register-img md:block bg-gray-600"
     >
       <div class="mt-[6rem] w-[80%] mx-auto">
@@ -32,6 +33,7 @@ const { title } = Astro.props;
         <div class="w-full max-w-[500px] bg-white py-10 my-10">
           
           <div class="grid items-center w-10/12 md:w-[23.3rem] md:max-w-[90%] mx-auto">
+            <Image class="mx-auto w-[247px] max-w-[90%]" src={siteLogoBent} alt="unique mental care logo" />
             <slot />
           </div>
 
@@ -51,3 +53,9 @@ const { title } = Astro.props;
     window.location.pathname = redirect_path;
   })
 </script>
+
+<style>
+  section#sidebar{
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(sidebar.png);
+  }
+</style>
