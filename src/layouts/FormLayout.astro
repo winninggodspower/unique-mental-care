@@ -8,9 +8,9 @@ const { title } = Astro.props;
 ---
 
 <BaseLayout title={title}>
-  <main class="md:flex md:h-fit md:min-h-[calc(100vh-3rem)] bg-grey">
+  <main class="md:flex md:h-fit md:min-h-[calc(100vh-3rem)]">
     <section id="sidebar"
-      class="hidden w-2/5 text-white register-img md:block bg-gray-600"
+      class="hidden w-2/5 text-white register-img md:block"
     >
       <div class="mt-[6rem] w-[80%] mx-auto">
         <h2 class="mb-8 text-4xl font-railway">
@@ -26,6 +26,7 @@ const { title } = Astro.props;
             24 hrs counselling Session
           </li>
         </ul>
+        <a href="/counsellor/login" class="w-full md:w-[min(24.7rem, 100%)] mt-9 rounded-md bg-primary-dark text-white py-2 px-4" type="submit">Login as a counsellor</a>
       </div>
     </section>
 
@@ -56,6 +57,6 @@ const { title } = Astro.props;
 
 <style>
   section#sidebar{
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(sidebar.png);
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../images/sidebar.png);
   }
 </style>
