@@ -9,7 +9,7 @@
   <div class="flex items-center gap-5 py-6 ps-12">
     <img src="https://avatar.iran.liara.run/public" style="width: 4.625rem;" />
     <div class="">
-      <p class="text-lg leading-none">Username</p>
+      <p id="username" class="text-lg leading-none">Username</p>
       <span class="text-sm font-light leading-none text-secondary">
         <a href="/logout"> Sign out</a>
       </span>
@@ -32,3 +32,11 @@
     </a>
   </div>
 </aside>
+
+
+<script>
+  let username = localStorage.getItem('username')
+  if (username) {
+    document.getElementById('username').innerText = username;
+  }
+</script>
