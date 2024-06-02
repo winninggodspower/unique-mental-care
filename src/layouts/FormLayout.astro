@@ -43,25 +43,6 @@ const { title } = Astro.props;
   </main>
 </BaseLayout>
 
-
-<script>
-  document.querySelector('form').addEventListener('submit', (e)=>{
-    e.preventDefault()
-
-    // save username to local storage
-    let username = e.currentTarget.querySelector("[name='name'")
-    if (username) {
-      localStorage.setItem('username', username.value)
-    }
-
-    let redirect_path = '/dashboard';
-    if (window.location.pathname.endsWith('register/')) {
-      redirect_path = '/login'
-    }
-    window.location.pathname = redirect_path;
-  })
-</script>
-
 <style>
   section#sidebar{
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../images/sidebar.png);

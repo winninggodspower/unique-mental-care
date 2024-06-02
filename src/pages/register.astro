@@ -5,7 +5,7 @@ import FormLayout from "../layouts/FormLayout.astro";
 <FormLayout title="register">
   <h3 class="font-raleway font-semibold text-2xl sm:text-3xl text-center md:text-[2rem] opacity-90 mb-1">Student Register</h3>
 
-  <form class="mt-4" action="">
+  <form class="mt-4" action="/api/auth/register" method="post">
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="name" type="text" placeholder="Full Name " required>
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="department" type="text" placeholder="Department " required>
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="matno" type="text" placeholder="Mat. no. " required>
@@ -28,7 +28,3 @@ import FormLayout from "../layouts/FormLayout.astro";
     <a class="block text-center text-grey-5" href="">Need and emergency help?</a>
   </div>
 </FormLayout>
-
-<script>
-
-</script>

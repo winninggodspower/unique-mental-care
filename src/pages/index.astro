@@ -1,11 +1,8 @@
 ---
 	import BaseLayout from '../layouts/BaseLayout.astro';
+	Astro.redirect('/login')
 ---
 
 <BaseLayout title='unique mental care'>
 	<h1 class="text-center text-5xl text-black mt-4">Unique Mental Care</h1>
 </BaseLayout>
-
-<script>
-	window.location.pathname = '/login';
-</script>
