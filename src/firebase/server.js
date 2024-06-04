@@ -1,5 +1,7 @@
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 
+console.log('private key', import.meta.env.FIREBASE_PROJECT_ID);
+
 const activeApps = getApps();
 const serviceAccount = {
   type: "service_account",
