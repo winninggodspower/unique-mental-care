@@ -42,5 +42,6 @@ export const POST = async ({ request, redirect }) => {
       { status: 400 }
     );
   }
-  return redirect("/login");
+
+  return redirect((userType == 'student' ? "/login" : "/counsellor/login" ));
 };

@@ -11,7 +11,7 @@ import FormLayout from "../../layouts/FormLayout.astro";
   <form class="mt-4" action="/api/auth/register" method="post">
     <toggle-error id="errorElement" class="inline-block p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
     </toggle-error>
-    <input type="hidden" name="userType" value="student">
+    <input type="hidden" name="userType" value="counsellor">
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="name" type="text" placeholder="Full Name " required>
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="email" type="email" placeholder="Email address ">
     <div class="grid grid-cols-[minmax(0,6.5rem)_minmax(0,1fr)] w-full group">
