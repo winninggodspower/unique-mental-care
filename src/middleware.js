@@ -15,11 +15,17 @@ async function auth ({locals, cookies}, next) {
     const decodedCookie = await auth.verifySessionCookie(sessionCookie);
     if (decodedCookie) {
       const user = await auth.getUser(decodedCookie.uid)
-      // const userDoc = await db.collection('users').doc(decodedCookie.uid).get();
       if (user) {
-        locals.user = user;
+        const userDoc = await db.collection('users').doc(decodedCookie.uid).get();
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          locals.user = {
+            ...user,
+            ...userData,
+          };
+        }
       } else {
-        console.error('No such user!');
+        console.error('No user is Authenticated!');
       }
     }
   }

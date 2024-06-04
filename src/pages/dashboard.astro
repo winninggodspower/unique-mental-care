@@ -2,16 +2,18 @@
 import DashboardSidebar from "../components/DashboardSidebar.astro";
 import Modal from "../components/Modal.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CounsellorDashboard from "../ReactPages/CounsellorDashoard";
+import CounsellorDashboard from "../reactPages/CounsellorDashoard";
 
-let userType = 'student'
+let data = Astro.locals;
+let user = data.user;
+console.log(user.userType);
 ---
 
 <BaseLayout title='dashboard'>
     <div class="relative flex border-t-4 min-h-[calc(100vh-5rem)]">
         <DashboardSidebar/>
 
-        {userType == 'student'? 
+        {user.userType == 'student'? 
         <div class="grow flex items-center px-2">
             <div class="w-full max-w-[500px] mx-auto rounded-md py-14 bg-[#00A891] text-white">
                 <div class="text-center justify-self-center">
@@ -21,8 +23,9 @@ let userType = 'student'
                 </div>
             </div>
         </div>
+        <Modal />
         :
-        <CounsellorDashboard/>
+        <CounsellorDashboard/ >
         }
     </div>
     <Modal/>
