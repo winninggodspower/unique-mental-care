@@ -1,6 +1,6 @@
 
 
-export default function CounsellorDashoard() {
+function CounsellorDashoard() {
   return (
     <div className="flex flex-col w-full">
       <header className="flex h-14 lg:h-20 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
@@ -98,23 +98,4 @@ export default function CounsellorDashoard() {
   )
 }
 
-function MoveHorizontalIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="18 8 22 12 18 16" />
-      <polyline points="6 8 2 12 6 16" />
-      <line x1="2" x2="22" y1="12" y2="12" />
-    </svg>
-  )
-}
+export default CounsellorDashoard;

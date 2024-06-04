@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ConsultPage from "../reactPages/Consult.jsx";
 import { getFirestore } from 'firebase-admin/firestore';
-import { app } from '../firebase/client';
+import { app } from '../firebase/server';
 
 const { searchParams } = Astro.url;
 const requestId = searchParams.get('requestId');
@@ -15,7 +15,7 @@ if (requestId) {
   try {
     const requestDoc = await db.collection('requests').doc(requestId).get();
     requestExists = requestDoc.exists;
-  } catch (error) {
+  } catch (error) { 
     console.error('Error checking requestId:', error);
   }
 }

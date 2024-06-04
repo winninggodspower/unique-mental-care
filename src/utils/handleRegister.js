@@ -5,6 +5,7 @@ document.querySelector('form').addEventListener('submit', async (event) => {
     errorElement.innerText = '';
     event.preventDefault();
     const formData = new FormData(form);
+    console.log(form.action);
 
     try {
         const response = await fetch(form.action, {

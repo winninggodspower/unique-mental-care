@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Player } from '@lottiefiles/react-lottie-player';
-import animationData from '../../lotties/loading-animation.json'
+import animationData from '../lotties/loading-animation.json'
+
+import { app } from '../firebase/client';
+import { doc, onSnapshot, getFirestore } from 'firebase/firestore';
 
 function ConsultPage({requestId}) {
     let [isSearching, setIsSearching] = useState(true);
@@ -9,6 +12,7 @@ function ConsultPage({requestId}) {
     useEffect(() => {
         if (!requestId) return;
 
+        const db = getFirestore(app);
         const unsubscribe = onSnapshot(doc(db, 'requests', requestId), async (doc) => {
             if (doc.exists()) {
                 const data = doc.data();

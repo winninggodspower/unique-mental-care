@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { getFirestore } from 'firebase-admin/firestore';
+import { useState } from 'react';
 import { app } from '../firebase/client';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 const Modal = ({ user }) => {
     const [formData, setFormData] = useState({
@@ -34,9 +34,10 @@ const Modal = ({ user }) => {
         console.log(formData);
 
         try {
-            const request = await db.collection('requests').add(formData);
-            if (request) {
-                window.location.href = `/consult?requestId=${request.uid}`;
+            const docRef = await addDoc(collection(db, 'requests'), formData);
+            if (docRef) {
+                console.log(docRef.id);
+                window.location.href = `/consult?requestId=${docRef.id}`;
             }
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -46,14 +47,12 @@ const Modal = ({ user }) => {
     return (
         <div
             id="popup-modal"
-            className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-        >
+            className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div className="relative p-4 w-full max-w-xl max-h-full">
                 <button
                     type="button"
                     className="absolute top-3 end-2.5 text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center m-4"
-                    onClick={() => (document.getElementById('popup-modal').style.display = 'none')}
-                >
+                    onClick={() => (document.getElementById('popup-modal').style.display = 'none')}>
                     <svg
                         className="w-3 h-3"
                         aria-hidden="true"

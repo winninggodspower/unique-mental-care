@@ -1,33 +1,30 @@
 ---
 import DashboardSidebar from "../components/DashboardSidebar.astro";
-import Modal from "../components/Modal.jsx";
+import Modal from "../components/Modal";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CounsellorDashboard from "../reactPages/CounsellorDashoard.jsx";
+import CounsellorDashboard from "../reactPages/CounsellorDashoard";
 
 let data = Astro.locals;
 let user = data.user;
-console.log(user.userType);
 ---
 
 <BaseLayout title='dashboard'>
     <div class="relative flex border-t-4 min-h-[calc(100vh-5rem)]">
         <DashboardSidebar/>
-
-        {user.userType == 'student'? 
+        
+        {user.userType === 'student' ?
         <div class="grow flex items-center px-2">
             <div class="w-full max-w-[500px] mx-auto rounded-md py-14 bg-[#00A891] text-white">
                 <div class="text-center justify-self-center">
-                    <img class="mx-auto bg-white rounded-full w-20" src="https://avatar.iran.liara.run/public/job/doctor/male" alt="">
-                    <p class="my-4 text-sm font-medium">consult a counsellor</p>
-                    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="rounded-md bg-white py-2 px-9 text-black">consult now</button>
+                    <img class="mx-auto bg-white rounded-full w-20" src="https://avatar.iran.liara.run/public/job/doctor/male" alt="Counsellor Avatar">
+                    <p class="my-4 text-sm font-medium">Consult a counsellor</p>
+                    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="rounded-md bg-white py-2 px-9 text-black">Consult now</button>
                 </div>
             </div>
+            <Modal client:load user={user} />
         </div>
-        <Modal />
-        :
-        <CounsellorDashboard / >
+        : 
+        <CounsellorDashboard client:load />
         }
     </div>
-    <Modal/>
 </BaseLayout>
-../components/Modal.jsx
