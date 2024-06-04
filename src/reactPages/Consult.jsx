@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Player } from '@lottiefiles/react-lottie-player';
-import animationData from '../lotties/loading-animation.json'
+import animationData from '../../lotties/loading-animation.json'
 
 function ConsultPage() {
     let [isSearching, setIsSearching] = useState(true);

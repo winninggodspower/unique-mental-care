@@ -1,20 +1,30 @@
 ---
 import FormLayout from "../../layouts/FormLayout.astro";
+import { getAuth } from "firebase-admin/auth";
+import { app } from "../../firebase/server";
+import LoginForm from "../reactPages/LoginForm";
+
+const auth = getAuth(app);
+if (Astro.cookies.has("__session")) {
+  const sessionCookie = Astro.cookies.get("__session").value;
+  const decodedCookie = await auth.verifySessionCookie(sessionCookie);
+  if (decodedCookie) {
+    return Astro.redirect("/dashboard");
+  }
+}
 ---
+
 
 <FormLayout title="login">
   <h3 class="font-raleway font-semibold text-2xl sm:text-3xl text-center md:text-[2rem] opacity-90 mb-1">Consellor Login</h3>
   <p class="text-base font-normal text-center md:text-lg opacity-90 font-raleway">
     Gain access to patients from all over Africa
   </p>
-  <form class="mt-4" action="">
-    <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="email" type="email" placeholder="Email address ">
-    <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="password" type="password" placeholder="Password">
-
-    <button class="w-full md:w-[min(24.7rem, 100%)] mt-9 rounded-md bg-primary-dark text-white py-2" type="submit">Login as a counsellor</button>
-  </form>
+  <LoginForm client:load submitBtnText="login as counsellor"/>
   <div class="mt-10">
     <a class="block text-center text-grey-5" href="/counsellor/register/">Don't have an account? Register</a>
     <a class="block text-center text-grey-5" href="">Forgot password?</a>
   </div>
 </FormLayout>
+
+<script src="../login.ts"></script>

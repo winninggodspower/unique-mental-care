@@ -1,6 +1,6 @@
-
-<script>
-    console.log('this ran');
-    localStorage.removeItem('username');
-    window.location.pathname = '/';
-</script>
+---
+Astro.cookies.delete("__session", {
+    path: "/",
+  });
+return Astro.redirect("/login");
+---

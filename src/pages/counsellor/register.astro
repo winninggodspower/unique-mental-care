@@ -8,10 +8,11 @@ import FormLayout from "../../layouts/FormLayout.astro";
     gain access to students in Uniport
   </p>
   <form class="mt-4" action="">
+    <input type="hidden" name="userType" value="counsellor">
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="email" type="email" placeholder="Email address ">
     <div class="grid grid-cols-[minmax(0,6.5rem)_minmax(0,1fr)] w-full group">
         <select class="border-r-0 rounded-md rounded-r-none mt-5 group-focus-within:input-hover bg-grey" name="phone_country_code">
-            <option value="">+234</option>
+            <option selected value="+234">+234</option>
             <option value="">+22</option>
             <option value="">+235</option>
         </select>

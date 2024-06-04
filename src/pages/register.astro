@@ -4,8 +4,12 @@ import FormLayout from "../layouts/FormLayout.astro";
 
 <FormLayout title="register">
   <h3 class="font-raleway font-semibold text-2xl sm:text-3xl text-center md:text-[2rem] opacity-90 mb-1">Student Register</h3>
+  
 
   <form class="mt-4" action="/api/auth/register" method="post">
+    <toggle-error id="errorElement" class="inline-block p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+    </toggle-error>
+    <input type="hidden" name="userType" value="student">
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="name" type="text" placeholder="Full Name " required>
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="department" type="text" placeholder="Department " required>
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="matno" type="text" placeholder="Mat. no. " required>
@@ -16,7 +20,7 @@ import FormLayout from "../layouts/FormLayout.astro";
             <option value="">+22</option>
             <option value="">+235</option>
         </select>
-        <input class="border-l-0 rounded-md rounded-l-none mt-5 group-focus-within:input-hover bg-grey-2" type="number" name="phone_number" placeholder="Phone number">
+        <input class="border-l-0 rounded-md rounded-l-none mt-5 group-focus-within:input-hover bg-grey-2" type="number" name="phone_number" placeholder="Phone number" required>
     </div>
     <input class="w-full rounded-md h-11 bg-grey-2 mt-5" name="password" type="password" placeholder="Password (student mat. no.)" required>
 
@@ -28,3 +32,34 @@ import FormLayout from "../layouts/FormLayout.astro";
     <a class="block text-center text-grey-5" href="">Need and emergency help?</a>
   </div>
 </FormLayout>
+
+
+<script src="../components/toggle-error-element.js"></script>
+<script>
+  let form = document.querySelector('form');
+  let errorElement = document.getElementById('errorElement');
+
+  document.querySelector('form').addEventListener('submit', async (event)=>{
+    errorElement.innerText = '';
+    event.preventDefault();
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+      });
+
+      if (response.redirected) {
+        window.location.assign(response.url);
+      } 
+      else if (!response.ok) {
+        const errorMessage = await response.text();
+        errorElement.innerText = errorMessage;
+      }
+    } catch (error) {
+      errorElement.innerText = "An error occurred. Please try again.";
+    }
+      
+  })
+</script>
