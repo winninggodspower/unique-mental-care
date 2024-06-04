@@ -1,8 +1,8 @@
 ---
 import DashboardSidebar from "../components/DashboardSidebar.astro";
-import Modal from "../components/Modal.astro";
+import Modal from "../components/Modal.jsx";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CounsellorDashboard from "../reactPages/CounsellorDashoard";
+import CounsellorDashboard from "../reactPages/CounsellorDashoard.jsx";
 
 let data = Astro.locals;
 let user = data.user;
@@ -25,8 +25,9 @@ console.log(user.userType);
         </div>
         <Modal />
         :
-        <CounsellorDashboard/ >
+        <CounsellorDashboard / >
         }
     </div>
     <Modal/>
 </BaseLayout>
+../components/Modal.jsx
