@@ -1,12 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ConsultPage from "./reactPages/Consult.jsx";
+
+let {requestId} = Astro.params;
+
+// verify requestId exist
 ---
 
 <BaseLayout title='consult counsellor'>
     <div class="relative flex border-t-4 min-h-[calc(100vh-5rem)]">
         <div class="grow flex-col items-center justify-center px-2">
-            <ConsultPage client:load/>      
+            <ConsultPage client:load requestId={requestId}/>      
         </div>
     </div>
 </BaseLayout>

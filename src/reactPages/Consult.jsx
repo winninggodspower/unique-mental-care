@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import { Player } from '@lottiefiles/react-lottie-player';
 import animationData from '../../lotties/loading-animation.json'
 
-function ConsultPage() {
+function ConsultPage({requestId}) {
     let [isSearching, setIsSearching] = useState(true);
+    let [consultantInfo, setConsultantInfo] = useState(null);
 
-    useEffect(() => {
-        setTimeout(() => setIsSearching(false), 5000)
-    }, [])
-
+    // watch for request with requestId document for changes
+    // if status = accepted. then redirect to chat[requestId]
+    //      request consultant information
+    //      setIsSearching to false
+    //      setConsultantInfo
 
     return (
         isSearching ?
@@ -39,7 +41,7 @@ function ConsultPage() {
                                 width={80}
                             />
                             <div>
-                                <h3 className="text-xl font-semibold">Jane Doe</h3>
+                                <h3 className="text-xl font-semibold">{consultantInfo.displayName}</h3>
                                 <p className="text-gray-500 dark:text-gray-400">Senior Medical Consultant</p>
                             </div>
                         </div>
@@ -61,11 +63,11 @@ function ConsultPage() {
 
 export default ConsultPage;
 
-function Button(props) {
+function Button({requestId,children}) {
     return (
-        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+        <a href={`/chat-${requestId}`} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
             {props.children}
-        </button>
+        </a>
     )
 }
 
