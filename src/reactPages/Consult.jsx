@@ -9,12 +9,16 @@ function ConsultPage({requestId}) {
     useEffect(() => {
         if (!requestId) return;
 
-        const unsubscribe = onSnapshot(doc(db, 'requests', requestId), (doc) => {
+        const unsubscribe = onSnapshot(doc(db, 'requests', requestId), async (doc) => {
             if (doc.exists()) {
                 const data = doc.data();
-                if (data.status === 'accepted') {
-                    setConsultantInfo(data.acceptedCounsellor);
-                    setIsSearching(false);
+                if (data.status === 'accepted' && data.acceptedCounsellor) {
+                    const counsellorRef = data.acceptedCounsellor;
+                    const counsellorDoc = await getDoc(counsellorRef);
+                    if (counsellorDoc.exists()) {
+                        setConsultantInfo(counsellorDoc.data());
+                        setIsSearching(false);
+                    }
                 }
             }
         });
