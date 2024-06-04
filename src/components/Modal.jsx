@@ -36,7 +36,7 @@ const Modal = ({ user }) => {
         try {
             const request = await db.collection('requests').add(formData);
             if (request) {
-                window.location.href = `/consult?requestId=${request.id}`;
+                window.location.href = `/consult?requestId=${request.uid}`;
             }
         } catch (error) {
             console.error('Error submitting form:', error);

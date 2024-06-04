@@ -6,11 +6,21 @@ function ConsultPage({requestId}) {
     let [isSearching, setIsSearching] = useState(true);
     let [consultantInfo, setConsultantInfo] = useState(null);
 
-    // watch for request with requestId document for changes
-    // if status = accepted. then redirect to chat[requestId]
-    //      request consultant information
-    //      setIsSearching to false
-    //      setConsultantInfo
+    useEffect(() => {
+        if (!requestId) return;
+
+        const unsubscribe = onSnapshot(doc(db, 'requests', requestId), (doc) => {
+            if (doc.exists()) {
+                const data = doc.data();
+                if (data.status === 'accepted') {
+                    setConsultantInfo(data.acceptedCounsellor);
+                    setIsSearching(false);
+                }
+            }
+        });
+
+        return () => unsubscribe();
+    }, [requestId]);
 
     return (
         isSearching ?
