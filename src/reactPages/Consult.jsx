@@ -5,7 +5,8 @@ import animationData from '../lotties/loading-animation.json'
 import { app } from '../firebase/client';
 import { doc, onSnapshot, getFirestore, getDoc } from 'firebase/firestore';
 
-function ConsultPage({requestId}) {
+
+function ConsultPage({ requestId }) {
     let [isSearching, setIsSearching] = useState(true);
     let [consultantInfo, setConsultantInfo] = useState(null);
 
@@ -23,7 +24,7 @@ function ConsultPage({requestId}) {
                         setConsultantInfo(counsellorDoc.data());
                         setIsSearching(false);
                     }
-                }   
+                }
             }
         });
 
@@ -81,7 +82,7 @@ function ConsultPage({requestId}) {
 
 export default ConsultPage;
 
-function Button({requestId, children}) {
+function Button({ requestId, children }) {
     return (
         <a href={`/chat-${requestId}`} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
             {children}

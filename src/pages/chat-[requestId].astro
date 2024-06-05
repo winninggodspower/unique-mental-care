@@ -31,7 +31,6 @@ async function fetchData() {
 
     // Check if the request status is accepted
     if (requestData.status === 'accepted') {
-      console.log('i got here');
       
       // Fetch information of the student
       const studentDocRef = doc(db, requestDocSnap.data().user);
