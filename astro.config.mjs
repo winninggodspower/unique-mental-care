@@ -8,5 +8,10 @@ import netlify from "@astrojs/netlify";
 export default defineConfig({
   output: 'server',
   integrations: [tailwind(), react()],
-  adapter: netlify()
+  adapter: netlify(),
+  build: {
+    rollupOptions: {
+      external: ['@reactPages/CounsellorDashboard']
+    }
+  }
 });
