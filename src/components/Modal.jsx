@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { app } from '../firebase/client';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const Modal = ({ user }) => {
     const [formData, setFormData] = useState({
@@ -31,10 +31,29 @@ const Modal = ({ user }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const db = getFirestore(app);
-        console.log(formData);
+        const timestamp = serverTimestamp();
+
+        const message = `Name: ${formData.name}\nAge: ${formData.age}\nGrade: ${formData.grade}\nSchool: ${formData.school}\nEmail: ${formData.email}\nReason for Seeking Consultation: ${formData.reason}\nConcerns: ${formData.concerns}\nEmotional State: ${formData.wellbeing}\nDiagnosed Conditions: ${formData.diagnosis}`;
+        
+        const medicalInfo = {
+            anxiety: formData.anxiety,
+            depression: formData.depression,
+            trauma: formData.trauma,
+            adhd: formData.adhd,
+            other: formData.other
+        };
+
+        const requestData = {
+            message: message,
+            status: 'pending',
+            user: `/users/${user.uid}`,
+            acceptedCounsellor: null, // Initially set to null since it's pending
+            createdAt: timestamp,
+            medicalInfo: medicalInfo
+        };
 
         try {
-            const docRef = await addDoc(collection(db, 'requests'), formData);
+            const docRef = await addDoc(collection(db, 'requests'), requestData);
             if (docRef) {
                 console.log(docRef.id);
                 window.location.href = `/consult?requestId=${docRef.id}`;
