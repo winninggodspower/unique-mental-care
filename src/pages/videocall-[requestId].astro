@@ -1,0 +1,66 @@
+---
+import VideoCall from "@/reactPages/VideoCall";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { app } from "../firebase/client";
+
+const db = getFirestore(app);
+
+let data = Astro.locals;
+let user = data.user;
+
+if (!user) {
+  return Astro.redirect("/login");
+}
+
+let { requestId } = Astro.params;
+
+let errorMessage = null;
+let counsellorData:Object;
+let studentData:Object;
+
+async function fetchData() {
+  if (!requestId) return;
+  
+  const requestDocRef = doc(db, 'requests', requestId);
+  const requestDocSnap = await getDoc(requestDocRef);
+  
+  if (requestDocSnap.exists()) {
+    const requestData = requestDocSnap.data();
+
+    // Check if the request status is accepted
+    if (requestData.status === 'accepted') {
+      
+      // Fetch information of the student
+      const studentDocRef = doc(db, requestDocSnap.data().user);
+      const studentDocSnap = await getDoc(studentDocRef);
+      studentData = studentDocSnap.data();      
+
+      // Fetch information of the counsellor
+      const counsellorDocRef = doc(db, requestData.acceptedCounsellor);
+      const counsellorDocSnap = await getDoc(counsellorDocRef);
+      counsellorData = counsellorDocSnap.data();
+      console.log(counsellorData);
+      
+
+      // Check if the current user is a counsellor
+      if (user.email !== studentData.email && user.email !== counsellorData.email) {
+        errorMessage = 'you dont have permission to access this page';
+      }
+    } else {
+      // Redirect or handle when request status is not accepted
+      errorMessage = 'request for this chat is not yet accepted';
+    }
+  } else {
+    // Redirect or handle when request document doesn't exist
+    errorMessage = 'request for this chat is invalid, please check your url again'
+  }
+}
+---
+
+<BaseLayout title="video call">
+  { !errorMessage?
+    <VideoCall client:only user={user} requestId={requestId} /> :
+    <p class="text-center mt-10">{errorMessage}</p>
+   }
+</BaseLayout>

@@ -100,9 +100,14 @@ function CounsellorDashboard({user}) {
                         </button>
                       )}
                       {request.status == 'accepted' && request.acceptedCounsellor.split('/').pop() == user.uid && (
-                        <a href={`chat-${request.id}`} className="ml-2 text-sm font-semibold text-white bg-green-500 px-3 py-1 rounded hover:bg-green-600 focus:outline-none focus:bg-green-600" onClick={()=>{handleAccept(request)}}>
+                        <>
+                        <a href={`chat-${request.id}`} className="ml-2 text-sm font-semibold text-white bg-green-500 px-3 py-1 rounded hover:bg-green-600 focus:outline-none focus:bg-green-600">
                         Visit Chat
                         </a>
+                        <a href={`videocall-${request.id}`} className="ml-2 text-sm font-semibold text-white bg-green-500 px-3 py-1 rounded hover:bg-green-600 focus:outline-none focus:bg-green-600">
+                        Join call
+                        </a>
+                        </>
                       )}
                     </td>
                   </tr>
