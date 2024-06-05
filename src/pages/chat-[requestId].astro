@@ -1,35 +1,81 @@
 ---
 import DashboardSidebar from "../components/DashboardSidebar.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Chat from "../ReactPages/Chat.jsx";
+import Chat from "../reactPages/Chat";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { app } from "../firebase/client";
+
+const db = getFirestore(app);
 
 let data = Astro.locals;
 let user = data.user;
-let {requestId} = Astro.props;
 
-// fetch information of the request
+if (!user) {
+  return Astro.redirect("/login");
+}
 
-// if status = accepted. 
-//  fetch information of the student
-//  fetch information of the counsellor
+let { requestId } = Astro.params;
 
-// check if currentUser is student or counsellor
-// if not redirect them away
+let errorMessage = null;
+let counsellorData:Object;
+let studentData:Object;
 
-let userIsCounsellor = false;
+async function fetchData() {
+  if (!requestId) return;
+  
+  const requestDocRef = doc(db, 'requests', requestId);
+  const requestDocSnap = await getDoc(requestDocRef);
+  
+  if (requestDocSnap.exists()) {
+    const requestData = requestDocSnap.data();
+
+    // Check if the request status is accepted
+    if (requestData.status === 'accepted') {
+      console.log('i got here');
+      
+      // Fetch information of the student
+      const studentDocRef = doc(db, requestDocSnap.data().user);
+      const studentDocSnap = await getDoc(studentDocRef);
+      studentData = studentDocSnap.data();      
+
+      // Fetch information of the counsellor
+      const counsellorDocRef = doc(db, requestData.acceptedCounsellor);
+      const counsellorDocSnap = await getDoc(counsellorDocRef);
+      counsellorData = counsellorDocSnap.data();
+      console.log(counsellorData);
+      
+
+      // Check if the current user is a counsellor
+      if (user.email !== studentData.email && user.email !== counsellorData.email) {
+        errorMessage = 'you dont have permission to access this page';
+      }
+    } else {
+      // Redirect or handle when request status is not accepted
+      errorMessage = 'request for this chat is not yet accepted';
+    }
+  } else {
+    // Redirect or handle when request document doesn't exist
+    errorMessage = 'request for this chat is invalid, please check your url again'
+  }
+}
+
+await fetchData();
+// console.log('counsellor data ' + counsellorData);
+console.log(errorMessage);
+
 ---
 
 <BaseLayout title="dashboard">
   <div class="relative flex border-t-4 min-h-[calc(100vh-5rem)]">
     <DashboardSidebar />
-    <div className="grow flex items-center px-2">
+    <div class="grow flex items-center px-2">
       <div
-        className="flex flex-col h-[600px] w-full mx-auto bg-white rounded-lg shadow-lg">
+        class="flex flex-col h-[600px] w-full mx-auto bg-white rounded-lg shadow-lg">
         <header
-          className="flex items-center justify-between px-4 py-3 bg-gray-100 rounded-t-lg ">
-          <div className="flex items-center gap-2">
+          class="flex items-center justify-between px-4 py-3 bg-gray-100 rounded-t-lg ">
+          <div class="flex items-center gap-2">
             <button
-              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 rounded-full">
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -40,20 +86,22 @@ let userIsCounsellor = false;
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                className="w-5 h-5" >
+                class="w-5 h-5" >
                 <path d="m12 19-7-7 7-7"></path>
                 <path d="M19 12H5"></path>
               </svg>
-              <span className="sr-only">Back</span>
+              <span class="sr-only">Back</span>
             </button>
-            <div className="flex flex-col">
-              <span className="font-medium">Dr. Sarah Johnson</span>
-              <span className="text-sm text-gray-500 dark:text-gray-400">Counselor</span>
+            <div class="flex flex-col">
+              <span class="font-medium capitalize">{counsellorData.name}</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">Counselor</span>
             </div>
           </div>
         </header>
-        
-        <Chat client:load requestId={requestId} currentUser={user}/>
+        { !errorMessage? 
+         <Chat client:load requestId={requestId} currentUser={user} studentData={studentData} counsellorData={counsellorData}/> :
+         <p class="text-center mt-10">{errorMessage}</p>
+        }
       </div>
     </div>
   </div>

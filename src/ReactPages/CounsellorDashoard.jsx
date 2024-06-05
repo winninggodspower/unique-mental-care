@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { app } from '../firebase/client';
-import { getFirestore, collection, onSnapshot, getDoc, doc } from 'firebase/firestore';
+import { getFirestore, collection, onSnapshot, getDoc, doc, updateDoc } from 'firebase/firestore';
 
 const statusColors = {
   pending: 'blue',
   accepted: 'green',
 };
 
-function CounsellorDashboard() {
+function CounsellorDashboard({user}) {
   const [requests, setRequests] = useState([]);
+  const db = getFirestore(app);
 
   useEffect(() => {
-    const db = getFirestore(app);
     const unsubscribe = onSnapshot(collection(db, 'requests'), async (snapshot) => {
       const requestData = [];
       for (const Snapshotdoc of snapshot.docs) {
@@ -20,7 +20,7 @@ function CounsellorDashboard() {
         console.log(request.user);
         if (request.user) {
           try {
-            const userDoc = await getDoc(doc(db, 'users/YkIoMeXvHVY2vPPWPSl4sQTuUjl2'));
+            const userDoc = await getDoc(doc(db, request.user));
             if (userDoc.exists()) {
               const userData = userDoc.data();
               request.userName = userData.name;
@@ -28,13 +28,33 @@ function CounsellorDashboard() {
           } catch (error) {
             console.error('Error fetching user document:', error);
           }
-        }        
+        }
         requestData.push(request);
       }
       setRequests(requestData);
     });
     return () => unsubscribe();
   }, []);
+
+
+  const handleAccept = async (request) => {
+    // Update the request data
+    const updatedRequest = {
+      acceptedCounsellor: `/users/${user.uid}`,
+      status: 'accepted',
+    };
+
+    try {
+      // Update the request in the database
+      await updateDoc(doc(db, 'requests', request.id), updatedRequest);
+      console.log('Request accepted successfully!');
+
+      // redirect user to chat
+      location.href = `/chat-${request.id}`;
+    } catch (error) {
+      console.error('Error accepting request:', error);
+    }
+  }
 
   return (
     <div className="flex flex-col w-full">
@@ -73,7 +93,18 @@ function CounsellorDashboard() {
                         {request.status}
                       </div>
                     </td>
-                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-right"></td>
+                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-right">
+                      {request.status == 'pending' && (
+                        <button className="ml-2 text-sm font-semibold text-white bg-green-500 px-3 py-1 rounded hover:bg-green-600 focus:outline-none focus:bg-green-600" onClick={()=>{handleAccept(request)}}>
+                          Accept
+                        </button>
+                      )}
+                      {request.status == 'accepted' && request.acceptedCounsellor.split('/').pop() == user.uid && (
+                        <a href={`chat-${request.id}`} className="ml-2 text-sm font-semibold text-white bg-green-500 px-3 py-1 rounded hover:bg-green-600 focus:outline-none focus:bg-green-600" onClick={()=>{handleAccept(request)}}>
+                        Visit Chat
+                        </a>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

@@ -6,6 +6,10 @@ import CounsellorDashboard from "../reactPages/CounsellorDashoard";
 
 let data = Astro.locals;
 let user = data.user;
+
+if (!user) {
+    return Astro.redirect("/login");
+}
 ---
 
 <BaseLayout title='dashboard'>
@@ -24,7 +28,7 @@ let user = data.user;
             <Modal client:load user={user} />
         </div>
         : 
-        <CounsellorDashboard client:load />
+        <CounsellorDashboard client:load user={user} />
         }
     </div>
 </BaseLayout>

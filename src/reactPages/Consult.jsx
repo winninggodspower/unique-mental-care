@@ -3,7 +3,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import animationData from '../lotties/loading-animation.json'
 
 import { app } from '../firebase/client';
-import { doc, onSnapshot, getFirestore } from 'firebase/firestore';
+import { doc, onSnapshot, getFirestore, getDoc } from 'firebase/firestore';
 
 function ConsultPage({requestId}) {
     let [isSearching, setIsSearching] = useState(true);
@@ -13,17 +13,17 @@ function ConsultPage({requestId}) {
         if (!requestId) return;
 
         const db = getFirestore(app);
-        const unsubscribe = onSnapshot(doc(db, 'requests', requestId), async (doc) => {
-            if (doc.exists()) {
-                const data = doc.data();
+        const unsubscribe = onSnapshot(doc(db, 'requests', requestId), async (snapshotDoc) => {
+            if (snapshotDoc.exists()) {
+                const data = snapshotDoc.data();
                 if (data.status === 'accepted' && data.acceptedCounsellor) {
                     const counsellorRef = data.acceptedCounsellor;
-                    const counsellorDoc = await getDoc(counsellorRef);
+                    const counsellorDoc = await getDoc(doc(db, counsellorRef));
                     if (counsellorDoc.exists()) {
                         setConsultantInfo(counsellorDoc.data());
                         setIsSearching(false);
                     }
-                }
+                }   
             }
         });
 
@@ -64,7 +64,7 @@ function ConsultPage({requestId}) {
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
-                            <Button>
+                            <Button requestId={requestId}>
                                 <ContactIcon className="mr-2 h-4 w-4" />
                                 Chat
                             </Button>
@@ -81,10 +81,10 @@ function ConsultPage({requestId}) {
 
 export default ConsultPage;
 
-function Button({requestId,children}) {
+function Button({requestId, children}) {
     return (
         <a href={`/chat-${requestId}`} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-            {props.children}
+            {children}
         </a>
     )
 }
