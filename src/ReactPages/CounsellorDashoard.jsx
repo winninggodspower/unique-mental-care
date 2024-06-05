@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import { app } from '../firebase/client';
 import { getFirestore, collection, onSnapshot, getDoc, doc } from 'firebase/firestore';
 
+const statusColors = {
+  pending: 'blue',
+  accepted: 'green',
+};
+
 function CounsellorDashboard() {
   const [requests, setRequests] = useState([]);
 
@@ -16,7 +21,6 @@ function CounsellorDashboard() {
         if (request.user) {
           try {
             const userDoc = await getDoc(doc(db, 'users/YkIoMeXvHVY2vPPWPSl4sQTuUjl2'));
-            console.log('Does this exist:', userDoc.exists());
             if (userDoc.exists()) {
               const userData = userDoc.data();
               request.userName = userData.name;
@@ -65,7 +69,7 @@ function CounsellorDashboard() {
                     <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">{request.userName || 'Loading...'}</td>
                     <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 hidden md:table-cell">{request.time}</td>
                     <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 hidden sm:table-cell">
-                      <div className={`inline-flex w-fit items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-${request.statusColor}-100 text-${request.statusColor}-600 dark:bg-${request.statusColor}-900/20 dark:text-${request.statusColor}-400`}>
+                      <div className={`inline-flex w-fit items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-${statusColors[request.status]}-100 text-${statusColors[request.status]}-600 `}>
                         {request.status}
                       </div>
                     </td>
