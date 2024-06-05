@@ -38,7 +38,7 @@ function Chat({ requestId, currentUser, studentData, counsellorData }) {
                         className={`flex items-start gap-3 ${message.sender === currentUser.email ? 'justify-end' : ''}`}>
                         {message.sender !== currentUser.email && (
                             <span className="relative flex shrink-0 overflow-hidden rounded-full border w-8 h-8">
-                                <img src="/placeholder.svg" alt={message.sender === counsellorData.email ? "Counselor" : "Student"} />
+                                <img src={`https://ui-avatars.com/api/?name=${counsellorData.name}`} alt={message.sender === counsellorData.email ? "Counselor" : "Student"} />
                                 <span className="flex h-full w-full items-center justify-center rounded-full bg-muted">
                                     {message.sender === counsellorData.email ? counsellorData.name[0] : studentData.name[0]}
                                 </span>
@@ -52,7 +52,7 @@ function Chat({ requestId, currentUser, studentData, counsellorData }) {
                         </div>
                         {message.sender === currentUser.email && (
                             <span className="relative flex shrink-0 overflow-hidden rounded-full border w-8 h-8">
-                                <img src="/placeholder.svg" alt="You" />
+                                <img src={`https://ui-avatars.com/api/?name=${currentUser.name}`} alt="You" />
                                 <span className="flex h-full w-full items-center justify-center rounded-full bg-muted">
                                     {currentUser.email[0]}
                                 </span>
