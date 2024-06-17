@@ -12,7 +12,9 @@ function CounsellorDashboard({user}) {
   const db = getFirestore(app);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'requests'), async (snapshot) => {
+    const unsubscribe = onSnapshot(
+      query(collection(db, 'requests'), orderBy('createdAt')), 
+      async (snapshot) => {
       const requestData = [];
       for (const Snapshotdoc of snapshot.docs) {
         const request = { id: Snapshotdoc.id, ...Snapshotdoc.data() };
