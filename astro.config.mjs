@@ -9,4 +9,11 @@ export default defineConfig({
   output: 'server',
   integrations: [tailwind(), react()],
   adapter: netlify(),
+  vite: {
+    resolve: {
+      alias: {
+        '@': path.resolve('./src'), // ✅ let Vite/Rollup know about "@"
+      },
+    },
+  },
 });
