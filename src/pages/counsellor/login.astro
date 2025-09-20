@@ -2,7 +2,7 @@
 import FormLayout from "../../layouts/FormLayout.astro";
 import { getAuth } from "firebase-admin/auth";
 import { app } from "../../firebase/server";
-import LoginForm from "@/ReactPages/LoginForm";
+import LoginForm from "@/ReactPages/LoginForm.jsx";
 
 const auth = getAuth(app);
 if (Astro.cookies.has("__session")) {
