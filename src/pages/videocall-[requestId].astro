@@ -15,15 +15,19 @@ if (!user) {
 
 let { requestId } = Astro.params;
 
+type UserData = {
+  email: string;
+};
+
 let errorMessage = null;
-let counsellorData:Object;
-let studentData:Object;
+let counsellorData: UserData;
+let studentData: UserData;
 
 async function fetchData() {
   if (!requestId) return;
   
-  const requestDocRef = doc(db, 'requests', requestId);
-  const requestDocSnap = await getDoc(requestDocRef);
+  const requestDocRef = doc(db, 'requests', requestId); 
+  const requestDocSnap = await getDoc(requestDocRef); // Check if the request exists with the given ID
   
   if (requestDocSnap.exists()) {
     const requestData = requestDocSnap.data();
@@ -34,12 +38,12 @@ async function fetchData() {
       // Fetch information of the student
       const studentDocRef = doc(db, requestDocSnap.data().user);
       const studentDocSnap = await getDoc(studentDocRef);
-      studentData = studentDocSnap.data();      
+      studentData = studentDocSnap.data() as UserData;      
 
       // Fetch information of the counsellor
       const counsellorDocRef = doc(db, requestData.acceptedCounsellor);
       const counsellorDocSnap = await getDoc(counsellorDocRef);
-      counsellorData = counsellorDocSnap.data();
+      counsellorData = counsellorDocSnap.data() as UserData;
       console.log(counsellorData);
       
 
