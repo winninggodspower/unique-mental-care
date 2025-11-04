@@ -75,7 +75,7 @@ function LoginForm({submitBtnText}) {
             }
             <input className="w-full rounded-md h-11 bg-grey-2 mt-5" name="email" type="email" placeholder="Email address " required/>
             <input className="w-full rounded-md h-11 bg-grey-2 mt-5" name="password" type="password" placeholder="Password" required/>
-            <button disabled={loading} className="w-full md:w-[min(24.7rem, 100%)] mt-9 rounded-md bg-primary-dark text-white py-2" type="submit">{submitBtnText}</button>
+            <button disabled={loading} className="w-full md:w-[min(24.7rem, 100%)] mt-9 rounded-md bg-primary-dark text-white py-2 disabled:bg-blue-300" type="submit">{loading ? 'loading' :  submitBtnText}</button>
         </form>
     )
 }
