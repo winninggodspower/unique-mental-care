@@ -4,10 +4,9 @@ import LoginForm from "@/ReactPages/LoginForm.jsx";
 
 const data = Astro.locals;
 if (data.user) {
-      return Astro.redirect("/dashboard");
+    return Astro.redirect("/dashboard");
 }
 console.log(data.user);
-
 ---
 
 <FormLayout title="login">
