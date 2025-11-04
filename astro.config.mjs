@@ -5,11 +5,13 @@ import react from "@astrojs/react";
 import netlify from "@astrojs/netlify";
 import path from 'path';
 
+import vercel from '@astrojs/vercel';
+
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
   integrations: [tailwind(), react()],
-  adapter: netlify(),
+  adapter: vercel(),
   vite: {
     resolve: {
       alias: {
